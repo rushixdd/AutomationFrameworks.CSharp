@@ -1,4 +1,5 @@
 ﻿using Frameworks.Driver;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace Tests.Base
     internal abstract class BaseTest
     {
         protected DriverSession DriverSession { get; set; }
-
+        protected IConfiguration config { get; set; }
         [OneTimeSetUp]
         public void SetUp()
         {
-            DriverSession = new DriverSession(new ChromeDriverFactory());
+            DriverSession = new DriverSession(new ChromeDriverFactory(), config);
             DriverSession.NavigateTo("https://demoqa.com/");
         }
 
