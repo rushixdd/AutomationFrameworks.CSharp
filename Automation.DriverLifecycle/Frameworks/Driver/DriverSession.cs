@@ -1,17 +1,19 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 
 namespace Frameworks.Driver
 {
     public class DriverSession : IDriverSession
     {
         private readonly IWebDriver _driver;
-
         public Guid SessionId { get; }
         public DateTimeOffset CreatedAt { get; }
         public string BrowserName { get; }
 
-        public DriverSession(IDriverFactory factory)
+        public DriverSession(IDriverFactory factory, IConfiguration config)
         {
+            config ??= new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json", optional: false).Build(); 
+            string browser = config["Browser"] ?? "chrome";
             if (factory is null) throw new ArgumentNullException(nameof(factory));
             _driver = factory.CreateDriver() ?? throw new InvalidOperationException("Factory returned null driver.");
             SessionId = Guid.NewGuid();

@@ -32,6 +32,7 @@ namespace Tests.SmokeTests
             this.DriverSession.FindElement(By.Id("userName")).SendKeys("testuser");
             this.DriverSession.FindElement(By.Id("password")).SendKeys("cGFzc3dvcmQ$");
             this.DriverSession.FindElement(By.Id("login")).Click();
+            Thread.Sleep(5000);
             this.DriverSession.FindElement(By.XPath("//button[text()='Delete Account']")).Displayed.Should().BeTrue();
         }
 
